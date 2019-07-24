@@ -28,7 +28,6 @@ BEGIN
     from cvpn.tconexion_vpn tcv
     where id_proceso_wf = p_id_proceso_wf;
 
-  	--RAISE EXCEPTION 'CVPN %, %',p_id_estado_wf,p_codigo_estado;
 
     if(p_codigo_estado = 'aprobacion') then
     	begin
