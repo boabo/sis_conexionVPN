@@ -405,7 +405,7 @@ header("content-type: text/javascript; charset=UTF-8");
                     forceSelection: true,
                     triggerAction:'all',
                     mode:'local',
-                    store:[ 'Conexión VPN Client', 'Conexión WIFI'],
+                    store:[ 'WI-FI', 'Acceso Remoto VPN'],
                     style:'text-transform:uppercase;'
                 },
                 type: 'ComboBox',
@@ -414,7 +414,24 @@ header("content-type: text/javascript; charset=UTF-8");
                 grid: true,
                 form: true
             },
-
+            {
+                config: {
+                    name: 'tipo',
+                    fieldLabel: 'Tipo',
+                    allowBlank: true,
+                    anchor: '80%',
+                    gwidth: 100,
+                    maxLength: 25,
+                    items:[
+                        {boxLabel:'Definido', name: 'tipo', inputValue:'defini', qtip: 'Definido',checked: 'check'},                        
+                        {boxLabel:'Indefinido', name: 'tipo', inputValue: 'indefi', qtip:'Indefinido'}
+                    ]
+                },
+                type: 'RadioGroupField',                
+                id_grupo: 1,
+                grid: true,
+                form: true
+            },
             {
                 config:{
                     name: 'fecha_desde',
@@ -435,7 +452,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 config:{
                     name: 'fecha_hasta',
                     fieldLabel: 'Habilitar Hasta',
-                    allowBlank: false,
+                    allowBlank: true,
                     anchor: '70%',
                     gwidth: 100,
                     format: 'd/m/Y',
@@ -446,7 +463,49 @@ header("content-type: text/javascript; charset=UTF-8");
                 id_grupo:1,
                 grid:true,
                 form:true
-            },
+            },            
+            {
+                config: {
+                    name: 'tipo_dispositivo',
+                    fieldLabel: 'Tipo Dispositivo',
+                    allowBlank: false,
+                    anchor: '80%',
+                    gwidth: 120,
+                    maxLength: 25,
+                    typeAhead:true,
+                    forceSelection: true,
+                    triggerAction:'all',
+                    mode:'local',
+                    store:[ 'Personal', 'Corporativo'],
+                    style:'text-transform:uppercase;'
+                },
+                type: 'ComboBox',
+                filters: {pfiltro: 'cvpn.tipo_dispositivo', type: 'string'},
+                id_grupo: 1,
+                grid: true,
+                form: true
+            }, 
+            {
+                config: {
+                    name: 'modelo_dispositivo',
+                    fieldLabel: 'Modelo Dispositivo',
+                    allowBlank: false,
+                    anchor: '80%',
+                    gwidth: 120,
+                    maxLength: 25,
+                    typeAhead:true,
+                    forceSelection: true,
+                    triggerAction:'all',
+                    mode:'local',
+                    store:[ 'Laptop', 'Celular', 'PC', 'Tablet', 'Otro'],                    
+                },
+                type: 'ComboBox',
+                filters: {pfiltro: 'cvpn.modelo_dispositivo', type: 'string'},
+                id_grupo: 1,
+                grid: true,
+                form: true
+            },            
+            /*
             {
                 config:{
                     name: 'ip_equipo_remoto',
@@ -463,7 +522,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 id_grupo:1,
                 grid:true,
                 form:true
-            },
+            },*/
 
 
             {
@@ -639,7 +698,10 @@ header("content-type: text/javascript; charset=UTF-8");
             {name:'usr_reg', type: 'string'},
             {name:'usr_mod', type: 'string'},
             'desc_funcionario1',
-            'fun_contacto'
+            'fun_contacto',
+            'tipo',
+            {name:'tipo_dispositivo',type: 'string'},
+            {name:'modelo_dispositivo',type: 'string'}            
 
         ],
         sortInfo:{
@@ -833,8 +895,17 @@ header("content-type: text/javascript; charset=UTF-8");
                     this.Cmp.id_funcionario.reset();
                 }
             },this);
-
-            this.Cmp.fecha_desde.on('change',function( o, newValue, oldValue ){
+            this.Cmp.tipo.on('change', function(cb, value){
+                
+                if(value.inputValue=='indefi'){
+                    this.Cmp.fecha_hasta.reset();                    
+                    this.ocultarComponente(this.Cmp.fecha_hasta);
+                }else{
+                    this.Cmp.fecha_hasta.reset();                    
+                    this.mostrarComponente(this.Cmp.fecha_hasta);
+                }
+            },this);
+            this.Cmp.fecha_desde.on('change',function( o, newValue, oldValue ){            
                 this.Cmp.fecha_hasta.setMinValue(newValue);
                 this.Cmp.fecha_hasta.reset();
 
@@ -888,6 +959,10 @@ header("content-type: text/javascript; charset=UTF-8");
         },
 
         onButtonNew : function () {
+            var f_desde = new Date();
+            var f_hasta = new Date(f_desde);
+            var n_date = new Date(f_hasta);
+            n_date.setDate(n_date.getDate() + 90);
             Ext.Ajax.request({
                 url:'../../sis_conexionVPN/control/ConexionVpn/cargarDatos',
                 params: {usuario:0},
@@ -896,6 +971,13 @@ header("content-type: text/javascript; charset=UTF-8");
                     console.log(reg);
                     this.Cmp.id_funcionario.setValue(reg.ROOT.datos.v_id_funcionario);
                     this.Cmp.id_funcionario.setRawValue(reg.ROOT.datos.v_desc_funcionario);
+                    this.Cmp.fecha_desde.setValue(f_desde.dateFormat('d/m/Y'));
+                    this.Cmp.fecha_hasta.setValue(n_date.dateFormat('d/m/Y'));
+                    this.Cmp.fecha_desde.on('change', function(o, newValue){                                                
+                        var n_d = new Date(newValue);
+                        n_d.setDate(n_d.getDate() + 90);
+                        this.Cmp.fecha_hasta.setValue(n_d.dateFormat('d/m/Y'));
+                    },this);
                 },
                 failure: this.conexionFailure,
                 timeout:this.timeout,

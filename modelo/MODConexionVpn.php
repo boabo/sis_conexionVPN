@@ -47,7 +47,8 @@ class MODConexionVpn extends MODbase{
 		$this->captura('desc_funcionario1','text');
 		$this->captura('fun_contacto','text');
 		$this->captura('id_funcionario_contacto','int4');
-
+        $this->captura('tipo_dispositivo','varchar');
+        $this->captura('modelo_dispositivo','varchar');        
 
 		$this->setParametro('tipo_interfaz', 'tipo_interfaz', 'varchar');
 		//Ejecuta la instruccion
@@ -83,6 +84,8 @@ class MODConexionVpn extends MODbase{
         $this->setParametro('id_estado_wf', 'id_estado_wf', 'int4');
         $this->setParametro('estado', 'estado', 'varchar');
         $this->setParametro('nro_tramite', 'nro_tramite', 'varchar');
+        $this->setParametro('tipo_dispositivo', 'tipo_dispositivo', 'varchar');        
+        $this->setParametro('modelo_dispositivo', 'modelo_dispositivo', 'varchar');                
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -114,7 +117,9 @@ class MODConexionVpn extends MODbase{
 		$this->setParametro('id_funcionario','id_funcionario','int4');
 		$this->setParametro('id_funcionario_contacto','id_funcionario_contacto','int4');
 		$this->setParametro('nota_adicional','nota_adicional','text');
-		$this->setParametro('nombre_funcionario','nombre_funcionario','varchar');
+        $this->setParametro('nombre_funcionario','nombre_funcionario','varchar');
+        $this->setParametro('tipo_dispositivo', 'tipo_dispositivo', 'varchar');        
+        $this->setParametro('modelo_dispositivo', 'modelo_dispositivo', 'varchar');                
 		//$this->setParametro('id_uo_gerencia','id_uo_gerencia','varchar');
 
 		//Ejecuta la instruccion
@@ -240,7 +245,9 @@ class MODConexionVpn extends MODbase{
 		$this->captura('nombre_funcionario', 'varchar');
 		$this->captura('desc_fun', 'text');
 		$this->captura('fun_contacto', 'text');
-		$this->captura('ofi_gerencia', 'varchar');
+        $this->captura('ofi_gerencia', 'varchar');
+        $this->captura('tipo_dispositivo', 'varchar');
+        $this->captura('modelo_dispositivo', 'varchar');
 
 
 

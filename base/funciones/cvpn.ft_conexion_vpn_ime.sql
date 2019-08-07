@@ -133,7 +133,7 @@ BEGIN
         	insert into cvpn.tconexion_vpn(
 			fecha_desde,
 			tipo_empleado,
-			ip_equipo_remoto,
+			--ip_equipo_remoto,
 			fecha_hasta,
 			estado_reg,
 			tipo_servicio,
@@ -152,11 +152,13 @@ BEGIN
             id_proceso_wf,
             id_estado_wf,
             estado,
-            nro_tramite
+            nro_tramite,
+            tipo_dispositivo,
+            modelo_dispositivo            
           	) values(
 			v_parametros.fecha_desde,
 			v_parametros.tipo_empleado,
-			v_parametros.ip_equipo_remoto,
+			--v_parametros.ip_equipo_remoto,
 			v_parametros.fecha_hasta,
 			'activo',
 			v_parametros.tipo_servicio,
@@ -175,7 +177,9 @@ BEGIN
             v_id_proceso_wf,
             v_id_estado_wf,
             v_codigo_estado,
-            v_nro_tramite
+            v_nro_tramite,
+            v_parametros.tipo_dispositivo,
+            v_parametros.modelo_dispositivo            
 
 			)RETURNING id_conexion_vpn into v_id_conexion_vpn;
 
@@ -210,7 +214,7 @@ BEGIN
 			update cvpn.tconexion_vpn set
 			fecha_desde = v_parametros.fecha_desde,
 			tipo_empleado = v_parametros.tipo_empleado,
-			ip_equipo_remoto = v_parametros.ip_equipo_remoto,
+			--ip_equipo_remoto = v_parametros.ip_equipo_remoto,
 			fecha_hasta = v_parametros.fecha_hasta,
 			tipo_servicio = v_parametros.tipo_servicio,
 			lista_servicios = v_parametros.lista_servicios,
@@ -222,7 +226,9 @@ BEGIN
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario,
 			id_usuario_ai = v_parametros._id_usuario_ai,
-			usuario_ai = v_parametros._nombre_usuario_ai
+			usuario_ai = v_parametros._nombre_usuario_ai,
+            tipo_dispositivo = v_parametros.tipo_dispositivo,
+            modelo_dispositivo = v_parametros.modelo_dispositivo            
 			where id_conexion_vpn=v_parametros.id_conexion_vpn;
 
 			--Definicion de la respuesta

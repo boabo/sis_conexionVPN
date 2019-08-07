@@ -15,7 +15,7 @@ class RSolConexionPDF extends  ReportePDF{
         //$this->Cell(40, $height, '', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $this->SetFontSize(15);
         $this->SetFont('', 'B');
-        $this->MultiCell(105, $height, "\n" . 'SOLICITUD DE CONEXION VPN', 1, 'C', 0, '', '');
+        $this->MultiCell(105, $height, "\n" . 'SOLICITUD DE CONEXION', 1, 'C', 0, '', '');
         $this->SetFont('times', '', 10);
         $this->MultiCell(0, $height, "\n" . '', 1, 'C', 0, '', '');
         $this->Image(dirname(__FILE__) . '/../../pxp/lib' . $_SESSION['_DIR_LOGO'], 17, 15, 36);
@@ -44,6 +44,8 @@ class RSolConexionPDF extends  ReportePDF{
         $fecha_desde = date_format(date_create($this->datos[0]['fecha_desde']), 'd/m/Y');
         $fecha_hasta = date_format(date_create($this->datos[0]['fecha_hasta']), 'd/m/Y');
         $ip_equipo_remoto = $this->datos[0]['ip_equipo_remoto'];
+        $tipo_dispositivo = $this->datos[0]['tipo_dispositivo'];
+        $modelo_dispositivo = $this->datos[0]['modelo_dispositivo'];        
         $lista_servicios = $this->datos[0]['lista_servicios'];
         $nota_adicional = $this->datos[0]['nota_adicional'];
         $nombre_funcionario = $this->datos[0]['nombre_funcionario'];
@@ -71,6 +73,7 @@ class RSolConexionPDF extends  ReportePDF{
         $this->Ln();
 
         $this->setY($this->getY()+5);
+        $this->setX($this->getX()-1.5);
 
         if($estado=='configuracion'){
             $d_fun_aprob = explode('|',$fun_firmas);
@@ -108,10 +111,13 @@ class RSolConexionPDF extends  ReportePDF{
         	
         	<tr>
         	    <td><b>Tipo Empleado : </b>$tipo_empleado</td> 
-        		<td ><b>IP Equipo Remoto :</b>$ip_equipo_remoto</td>
-        	</tr>
+        		<td ><b>Tipo Dispositivo : </b>$tipo_dispositivo</td>
+            </tr>
+            <tr>
+                <td ><b>Modelo Dispositivo : </b>$modelo_dispositivo</td>
+            </tr>
         	<tr>
-            	<td colspan = "2"><b>Servicios a utilizar VPN:</b> $lista_servicios</td> 
+            	<td colspan = "2"><b>Servicios a utilizar :</b> $lista_servicios</td> 
         	</tr>
         	<tr>
             	<td colspan = "2"><b>Notas Adicionales :</b> $nota_adicional</td> 
@@ -140,11 +146,12 @@ EOF;
         	</tr>
         	
         	<tr rowspan="2">
-        	    <td ><b>Tipo Empleado :</b><br>$tipo_empleado</td> 
-        		<td ><b>IP Equipo Remoto :</b><br>$ip_equipo_remoto</td>
+        	    <td ><b>Tipo Empleado : </b><br>$tipo_empleado</td> 
+                <td ><b>Tipo Dispositivo : </b>$tipo_dispositivo</td>
+                <td ><b>Modelo Dispositivo : </b>$modelo_dispositivo</td>
         	</tr>
         	<tr>
-            	<td colspan = "3"><b>Servicios a utilizar VPN:</b> $lista_servicios</td> 
+            	<td colspan = "3"><b>Servicios a utilizar :</b> $lista_servicios</td> 
         	</tr>
         	<tr>
             	<td colspan = "3"><b>Notas Adicionales :</b> $nota_adicional</td>     

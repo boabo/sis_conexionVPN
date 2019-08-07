@@ -114,7 +114,9 @@ BEGIN
 						usu2.cuenta as usr_mod,
                         COALESCE(vfc.desc_funcionario1, ''''::TEXT) as desc_funcionario1,
                         COALESCE(vf.desc_funcionario1, ''''::TEXT) as fun_contacto,
-                        cvpn.id_funcionario_contacto
+                        cvpn.id_funcionario_contacto,
+                        cvpn.tipo_dispositivo,
+                        cvpn.modelo_dispositivo                        
 						from cvpn.tconexion_vpn cvpn
 						inner join segu.tusuario usu1 on usu1.id_usuario = cvpn.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = cvpn.id_usuario_mod
@@ -212,7 +214,9 @@ BEGIN
                         tcv.nombre_funcionario,
                         COALESCE(vfc.desc_funcionario1||''|''::text||vfc.nombre_cargo::text, ''''::TEXT) as desc_fun,
                         COALESCE(vf.desc_funcionario1||''|''::text||vf.nombre_cargo::text, ''''::TEXT) as fun_contacto,
-                        CASE WHEN tcv.nombre_funcionario = '''' THEN (vfc.nombre_unidad ||'' - ''|| vfc.oficina_nombre)::VARCHAR ELSE (vf.nombre_unidad ||'' - ''|| vf.oficina_nombre)::VARCHAR END AS ofi_gerencia
+                        CASE WHEN tcv.nombre_funcionario = '''' THEN (vfc.nombre_unidad ||'' - ''|| vfc.oficina_nombre)::VARCHAR ELSE (vf.nombre_unidad ||'' - ''|| vf.oficina_nombre)::VARCHAR END AS ofi_gerencia,
+                        tcv.tipo_dispositivo,
+                        tcv.modelo_dispositivo                        
                         FROM cvpn.tconexion_vpn tcv
                         left join orga.vfuncionario_cargo_lugar vfc ON vfc.id_funcionario = tcv.id_funcionario
                         left join orga.vfuncionario_cargo_lugar vf ON vf.id_funcionario = tcv.id_funcionario_contacto

@@ -56,6 +56,7 @@ header("content-type: text/javascript; charset=UTF-8");
             this.getBoton('btnObs').setVisible(false);*/
 
         },
+        /*
         onSubmit: function(o,x, force){
 
             var msg = 'El campo IP del equipo remoto tiene la siguiente estructura: '+this.Cmp.ip_equipo_remoto.getValue();
@@ -69,7 +70,7 @@ header("content-type: text/javascript; charset=UTF-8");
                 }
             },this);
             //Phx.vista.ConexionVpn.superclass.onSubmit.call(this,o);
-        },
+        },*/
 
         successSave: function (resp) {
             this.store.baseParams.pes_estado = 'borrador';
