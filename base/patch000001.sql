@@ -57,3 +57,11 @@ ALTER TABLE cvpn.tconexion_vpn
 ALTER TABLE cvpn.tconexion_vpn
   ALTER COLUMN fecha_hasta SET STATISTICS 0;
 /***********************************F-SCP-FEA-CVPN-1-22/06/2017****************************************/
+/***********************************I-SCP-BVP-CVPN-1-07/08/2019****************************************/
+ALTER TABLE cvpn.tconexion_vpn
+  ADD COLUMN tipo_dispositivo VARCHAR(100);
+
+ALTER TABLE cvpn.tconexion_vpn
+  ADD COLUMN modelo_dispositivo VARCHAR(200);
+
+/***********************************F-SCP-BVP-CVPN-1-07/08/2019****************************************/
